@@ -414,8 +414,8 @@
       <p class="step-text">Status: ATIVO ✓</p>
     </div>
     <div id="game-selection" class="hidden" style="margin-top:15px;display:flex;flex-direction:column;gap:8px;">
-      <button class="btn-gradient" style="margin:0" onclick="abrirJogo('com.dts.freefireth')">ABRIR FREE FIRE</button>
-      <button class="btn-gradient" style="margin:0;background:orange" onclick="abrirJogo('com.dts.freefiremax')">ABRIR FF MAX</button>
+      <button class="btn-gradient" onclick="location.href='intent://#Intent;package=com.dts.freefireth;scheme=android-app;end'">ABRIR FREE FIRE</button>
+      <button class="btn-gradient" onclick="location.href='intent://#Intent;package=com.dts.freefiremax;scheme=android-app;end'">ABRIR FF MAX</button>
       <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);margin-top:10px">FECHAR</button>
     </div>
   </div>
@@ -423,9 +423,20 @@
 
 <script>
   function abrirJogo(packageName) {
-    window.location.href = "android-app://" + packageName;
-    setTimeout(() => { window.location.href = "intent://#Intent;package=" + packageName + ";scheme=https;end"; }, 500);
-  }
+  // 1. Tenta o Intent específico do Android que pula a Play Store
+  const intentUrl = `intent://#Intent;package=${packageName};scheme=android-app;end`;
+  
+  // 2. Tenta o protocolo direto de pacote
+  const directUrl = `android-app://${packageName}`;
+
+  // Executa a tentativa principal
+  window.location.href = intentUrl;
+
+  // Se em 500ms o app não abrir, tenta o método direto como backup
+  setTimeout(() => {
+    window.location.href = directUrl;
+  }, 500);
+}
 
   const loginForm = document.getElementById('login-form');
   loginForm.addEventListener('submit', (e) => {
@@ -481,3 +492,4 @@
 </html>
 
  
+
