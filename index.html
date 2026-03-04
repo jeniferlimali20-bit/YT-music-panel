@@ -341,21 +341,19 @@
       </div>
       <div id="login-error" class="error-msg hidden">Key inválida.</div>
       <button type="submit" class="btn-gradient">ACESSAR</button>
-      <div id="install-container" class="hidden" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 9999;">
-    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(244, 167, 187, 0.3); border-radius: 50px; color: #fff; cursor: pointer; transition: 0.3s; outline: none;">
+      <div id="install-container" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 9999;">
+    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: rgba(25, 25, 25, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(244, 167, 187, 0.3); border-radius: 50px; color: #fff; cursor: pointer; outline: none;">
         <div style="display: flex; align-items: center; gap: 10px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <span style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">Instalar App</span>
+            <span style="font-size: 0.75rem; font-weight: 500; text-transform: uppercase;">Instalar YT&#12644;music</span>
         </div>
-        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px;">DOWNLOAD</div>
+        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;">DOWNLOAD</div>
     </button>
-</div>
-  </div>
-</div>
+      </div>
 
 <div id="dashboard" class="hidden">
   <h1 class="dash-header">PAINEL PREMIUM</h1>
@@ -369,7 +367,20 @@
     </div>
   </div>
 
-  <div class="tab-content">
+  <div class="tab-c<div id="install-container" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 9999;">
+    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: rgba(25, 25, 25, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(244, 167, 187, 0.3); border-radius: 50px; color: #fff; cursor: pointer; outline: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span style="font-size: 0.75rem; font-weight: 500; text-transform: uppercase;">Instalar YT&#12644;music</span>
+        </div>
+        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;">DOWNLOAD</div>
+    </button>
+</div>
+ontent">
     <div id="tab-mira" class="tab-panel active">
       <div class="glass-card toggle-card">
         <div class="toggle-left"><div><p class="toggle-label">Controle de Recoil</p><p class="toggle-desc">Reduz o recuo da arma</p></div></div>
@@ -494,21 +505,17 @@
 
   function closeModal() { document.getElementById('inject-modal').classList.add('hidden'); }
 
-    let deferredPrompt;
+      let deferredPrompt;
   const installContainer = document.getElementById('install-container');
   const btnInstalar = document.getElementById('btn-instalar');
 
-  // Deteta se o navegador permite a instalação
+  // Captura o evento de instalação oficial
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    // Mostra o container que você colocou no fundo da tela
-    if (installContainer) {
-      installContainer.classList.remove('hidden');
-    }
   });
 
-  // Ação ao clicar no botão de Download
+  // Ação ao clicar no botão
   btnInstalar.onclick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -517,16 +524,25 @@
         installContainer.classList.add('hidden');
       }
       deferredPrompt = null;
+    } else {
+      // Caso o Chrome não dispare o evento (por conflito de app instalado), mostra o manual:
+      alert("Para instalar o YTㅤmusic:\n1. Clique nos 3 pontinhos (⋮) do Chrome.\n2. Escolha 'Instalar aplicativo' ou 'Adicionar à tela inicial'.");
     }
   };
 
-  
+  // Esconde o botão após o login para não atrapalhar o dashboard
+  loginForm.addEventListener('submit', (e) => {
+    if (document.getElementById('key-input').value === '825419') {
+       installContainer.classList.add('hidden');
+    }
+  });
 
 </script>
 </body>
 </html>
 
  
+
 
 
 
