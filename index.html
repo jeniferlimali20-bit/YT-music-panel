@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YT Premium</title>
+<title>YT Premium - Painel</title>
 <meta name="description" content="App de músicas.">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json?v=3">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -326,8 +326,23 @@
   .info-link svg { color: var(--primary); }
 </style>
 </head>
-<body>
+ <body>
 
+  <div id="install-container" style="position: fixed !important; bottom: 20px !important; left: 50% !important; transform: translateX(-50%) !important; width: 90%; max-width: 400px; z-index: 999999 !important; display: block !important;">
+    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid #f4a7bb; border-radius: 50px; color: #fff; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.5); outline: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Instalar YT Premium</span>
+        </div>
+        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 900;">DOWNLOAD</div>
+    </button>
+  </div>
+  
+  
 <div id="login-screen">
   <div class="login-container animate-fade-in-scale">
     <div class="logo-box">
@@ -341,11 +356,7 @@
       </div>
       <div id="login-error" class="error-msg hidden">Key inválida.</div>
       <button type="submit" class="btn-gradient">ACESSAR</button>
-      <button id="btn-instalar" class="hidden" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--primary); padding: 10px; border-radius: 10px; margin-top: 15px; width: 100%; font-size: 0.75rem;">📥 INSTALAR APLICATIVO</button>
-    </form>
-  </div>
-</div>
-
+      
 <div id="dashboard" class="hidden">
   <h1 class="dash-header">PAINEL PREMIUM</h1>
 
@@ -358,7 +369,20 @@
     </div>
   </div>
 
-  <div class="tab-content">
+  <div class="tab-c<div id="install-container" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 9999;">
+    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: rgba(25, 25, 25, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(244, 167, 187, 0.3); border-radius: 50px; color: #fff; cursor: pointer; outline: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span style="font-size: 0.75rem; font-weight: 500; text-transform: uppercase;">Instalar YT&#12644;music</span>
+        </div>
+        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;">DOWNLOAD</div>
+    </button>
+</div>
+ontent">
     <div id="tab-mira" class="tab-panel active">
       <div class="glass-card toggle-card">
         <div class="toggle-left"><div><p class="toggle-label">Controle de Recoil</p><p class="toggle-desc">Reduz o recuo da arma</p></div></div>
@@ -414,18 +438,28 @@
       <p class="step-text">Status: ATIVO ✓</p>
     </div>
     <div id="game-selection" class="hidden" style="margin-top:15px;display:flex;flex-direction:column;gap:8px;">
-      <button class="btn-gradient" style="margin:0" onclick="abrirJogo('com.dts.freefireth')">ABRIR FREE FIRE</button>
-      <button class="btn-gradient" style="margin:0;background:orange" onclick="abrirJogo('com.dts.freefiremax')">ABRIR FF MAX</button>
+      <button class="btn-gradient" onclick="location.href='intent://#Intent;package=com.dts.freefireth;scheme=android-app;end'">ABRIR FREE FIRE</button>
+      <button class="btn-gradient" onclick="location.href='intent://#Intent;package=com.dts.freefiremax;scheme=android-app;end'">ABRIR FF MAX</button>
       <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);margin-top:10px">FECHAR</button>
     </div>
   </div>
 </div>
 
 <script>
+ 
   function abrirJogo(packageName) {
-    window.location.href = "android-app://" + packageName;
-    setTimeout(() => { window.location.href = "intent://#Intent;package=" + packageName + ";scheme=https;end"; }, 500);
-  }
+  // Este é o formato de "Intent" que o Android usa para abrir a tela inicial de um app instalado
+  const intentUrl = "intent://#Intent;package=" + packageName + ";action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
+  
+  // Tenta abrir o jogo imediatamente
+  window.location.href = intentUrl;
+  
+  // Caso o navegador bloqueie o primeiro comando, este segundo tenta forçar a navegação
+  setTimeout(() => {
+    window.location.replace(intentUrl);
+  }, 300);
+}
+
 
   const loginForm = document.getElementById('login-form');
   loginForm.addEventListener('submit', (e) => {
@@ -473,12 +507,41 @@
 
   function closeModal() { document.getElementById('inject-modal').classList.add('hidden'); }
 
-  let defP;
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); defP = e; document.getElementById('btn-instalar').classList.remove('hidden'); });
-  document.getElementById('btn-instalar').onclick = async () => { if(defP) { defP.prompt(); defP = null; } };
-</script>
-</body>
- </html>
- 
+  let deferredPrompt;
+  const installContainer = document.getElementById('install-container');
+  const btnInstalar = document.getElementById('btn-instalar');
 
+  // 1. Registo do Service Worker (Obrigatório para o Chrome libertar a instalação)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker ativo!', reg))
+        .catch(err => console.log('Erro no SW:', err));
+    });
+  }
 
+  // 2. Captura o evento de instalação
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log("Pronto para instalar YT Premium");
+  });
+
+  // 3. Lógica do clique no botão
+  btnInstalar.onclick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installContainer.style.display = 'none';
+      }
+      deferredPrompt = null;
+    } else {
+      // Se chegar aqui, é porque o Chrome ainda não validou o sw.js ou manifest
+      alert("Aguarde um momento ou faça a INSTALAÇÃO MANUAL:\n\n1. Clique nos 3 pontinhos (⋮) do Chrome.\n2. Escolha 'Instalar aplicação' ou 'Adicionar ao ecrã inicial'.");
+    }
+  };
+
+  // 4. Esconde o botão após o login (ajuste conforme o seu código de login)
+  if (loginForm) {
+    loginForm.addEven
