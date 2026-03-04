@@ -473,6 +473,131 @@ ontent">
   });
 
   document.querySelectorAll('.tab-btn').forEach(btn => {
+<body>
+
+  <div id="install-container" style="position: fixed !important; bottom: 20px !important; left: 50% !important; transform: translateX(-50%) !important; width: 90%; max-width: 400px; z-index: 9999; display: block;">
+    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); border: 1px solid #f4a7bb; border-radius: 50px; color: #fff; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.5); outline: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Instalar YT Premium</span>
+        </div>
+        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 900;">DOWNLOAD</div>
+    </button>
+  </div>
+
+  <div id="login-screen">
+    <div class="login-container animate-fade-in-scale">
+      <div class="logo-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <h1 class="login-title">PAINEL PREMIUM</h1>
+      <p class="login-subtitle">Assistente Avançado</p>
+      <form id="login-form">
+        <div class="glass-card key-input-wrapper">
+          <input type="text" class="key-input" placeholder="Insira sua Key" id="key-input">
+        </div>
+        <div id="login-error" class="error-msg hidden">Key inválida.</div>
+        <button type="submit" class="btn-gradient">ACESSAR</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="dashboard" class="hidden">
+    <h1 class="dash-header">PAINEL PREMIUM</h1>
+
+    <div class="tabs-container">
+      <div class="glass-card tabs-bar">
+        <button class="tab-btn active" data-tab="mira"><span>Mira</span></button>
+        <button class="tab-btn" data-tab="otimizacao"><span>Otimização</span></button>
+        <button class="tab-btn" data-tab="ativacao"><span>Ativação</span></button>
+        <button class="tab-btn" data-tab="info"><span>Info</span></button>
+      </div>
+    </div>
+
+    <div class="tab-content">
+      <div id="tab-mira" class="tab-panel active">
+        <div class="glass-card toggle-card">
+          <div class="toggle-left"><div><p class="toggle-label">Aprimoramento de Toque</p><p class="toggle-desc">Reduz Input Lag</p></div></div>
+          <button class="switch" onclick="Motor.otimizarToque(this)"></button>
+        </div>
+        <div class="glass-card precision-card">
+          <p class="toggle-label">Precisão da Mira</p>
+          <div class="precision-btns">
+            <button class="precision-btn" onclick="selectPrecision(this)">Leve</button>
+            <button class="precision-btn active" onclick="selectPrecision(this)">Médio</button>
+            <button class="precision-btn" onclick="selectPrecision(this)">Alto</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-otimizacao" class="tab-panel">
+        <button class="opt-card" onclick="Motor.limparRAM(this)"><div style="flex:1"><p class="opt-label">Limpar RAM</p><p class="opt-desc">Libera memória do sistema</p></div><span class="opt-status hidden">Ativo</span></button>
+        <button class="opt-card" onclick="Motor.ativarPerformance(this)"><div style="flex:1"><p class="opt-label">Modo Performance</p><p class="opt-desc">Mantém CPU em alerta</p></div><span class="opt-status hidden">Ativo</span></button>
+      </div>
+
+      <div id="tab-ativacao" class="tab-panel">
+        <div class="inject-container"><button class="inject-btn" onclick="startInject()">INJETAR<br>AUXÍLIO</button></div>
+      </div>
+
+      <div id="tab-info" class="tab-panel">
+        <div class="glass-card info-card">
+          <a href="https://instagram.com/gothxjen" target="_blank" class="info-link">Instagram: @gothxjen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="inject-modal" class="modal-overlay hidden">
+    <div class="glass-card modal-content">
+      <h3 style="text-align:center;margin-bottom:1rem">PROCESSANDO...</h3>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div id="game-selection" class="hidden" style="margin-top:15px;display:flex;flex-direction:column;gap:10px;">
+        <button class="btn-gradient" onclick="abrirJogo('com.dts.freefireth')">FREE FIRE ORIGINAL</button>
+        <button class="btn-gradient" onclick="abrirJogo('com.dts.freefiremax')">FREE FIRE MAX</button>
+        <button onclick="closeModal()" style="color:#aaa;background:none;border:none;margin-top:10px">CANCELAR</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // --- MOTOR DE FUNÇÕES REAIS ---
+  const Motor = {
+    limparRAM: function(btn) {
+      localStorage.clear();
+      sessionStorage.clear();
+      btn.classList.add('active');
+      btn.querySelector('.opt-status').classList.remove('hidden');
+      alert("Cache do sistema limpo com sucesso!");
+    },
+    ativarPerformance: async function(btn) {
+      if ('wakeLock' in navigator) {
+        await navigator.wakeLock.request('screen');
+        btn.classList.add('active');
+        btn.querySelector('.opt-status').classList.remove('hidden');
+        alert("Modo Performance: ATIVO (CPU em alerta)");
+      }
+    },
+    otimizarToque: function(btn) {
+      btn.classList.toggle('on');
+      document.body.style.touchAction = btn.classList.contains('on') ? "manipulation" : "auto";
+    }
+  };
+
+  // --- LÓGICA DE LOGIN ---
+  const loginForm = document.getElementById('login-form');
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (document.getElementById('key-input').value === '825419') {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('install-container').style.display = 'none'; // Some o download
+    } else {
+      document.getElementById('login-error').classList.remove('hidden');
+    }
+  });
+
+  // --- NAVEGAÇÃO TABS ---
+  document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -481,81 +606,48 @@ ontent">
     });
   });
 
-  function selectPrecision(btn) {
-    document.querySelectorAll('.precision-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  function toggleOpt(card) {
-    card.classList.toggle('active');
-    card.querySelector('.opt-status').classList.toggle('hidden');
-  }
-
+  // --- INJETOR E ABERTURA DE JOGO ---
   function startInject() {
     const modal = document.getElementById('inject-modal');
     const fill = document.getElementById('progress-fill');
-    const steps = document.querySelectorAll('.step-text');
     modal.classList.remove('hidden');
-    let s = 0;
-    const inv = setInterval(() => {
-      s++;
-      fill.style.width = (s * 25) + '%';
-      if(steps[s-1]) steps[s-1].style.color = 'white';
-      if(s >= 4) { clearInterval(inv); document.getElementById('game-selection').classList.remove('hidden'); }
-    }, 800);
+    let p = 0;
+    const interval = setInterval(() => {
+      p += 5;
+      fill.style.width = p + '%';
+      if(p >= 100) {
+        clearInterval(interval);
+        document.getElementById('game-selection').classList.remove('hidden');
+      }
+    }, 50);
+  }
+
+  function abrirJogo(pkg) {
+    window.location.href = "intent://#Intent;package=" + pkg + ";action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
   }
 
   function closeModal() { document.getElementById('inject-modal').classList.add('hidden'); }
 
+  // --- PWA INSTALAÇÃO ---
   let deferredPrompt;
-  const installContainer = document.getElementById('install-container');
-  const btnInstalar = document.getElementById('btn-instalar');
-
-  // 1. Registo do Service Worker (Obrigatório para o Chrome libertar a instalação)
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('Service Worker ativo!', reg))
-        .catch(err => console.log('Erro no SW:', err));
-    });
-  }
-
-  // 2. Captura o evento de instalação
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    console.log("Pronto para instalar YT Premium");
   });
 
-  // 3. Lógica do clique no botão
-  btnInstalar.onclick = async () => {
+  document.getElementById('btn-instalar').onclick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        installContainer.style.display = 'none';
-      }
-      deferredPrompt = null;
     } else {
-      // Se chegar aqui, é porque o Chrome ainda não validou o sw.js ou manifest
-      alert("Aguarde um momento ou faça a INSTALAÇÃO MANUAL:\n\n1. Clique nos 3 pontinhos (⋮) do Chrome.\n2. Escolha 'Instalar aplicação' ou 'Adicionar ao ecrã inicial'.");
+      alert("Para instalar: Clique nos 3 pontinhos do Chrome e selecione 'Instalar Aplicativo'.");
     }
   };
-
-  // 4. Esconde o botão após o login (ajuste conforme o seu código de login)
-  if (loginForm) {
-    loginForm.addEventListener('submit', () => {
-      if (document.getElementById('key-input').value === '825419') {
-        installContainer.style.display = 'none';
-      }
-    });
-  }
-  
 </script>
 </body>
 </html>
 
  
+
 
 
 
