@@ -1,6 +1,7 @@
 {
-  "name": "YTㅤmusic",
-  "short_name": "YTㅤmusic",
+  "name": "YT Premium",
+  "short_name": "YT Premium",
+  "description": "Painel Premium YT",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0a0a0a",
