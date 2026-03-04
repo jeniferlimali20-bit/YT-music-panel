@@ -519,7 +519,7 @@ ontent">
   });
 
   // Clique no botão
-  btnInstalar.onclick = async () => {
+    btnInstalar.onclick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
@@ -528,11 +528,15 @@ ontent">
       }
       deferredPrompt = null;
     } else {
-      // Se o Chrome não disparar o evento automático (muito comum em testes repetidos)
-      alert("INSTALAÇÃO MANUAL:\n\n1. Clique nos 3 pontinhos (⋮) no topo do Chrome.\n2. Selecione 'Instalar aplicação' ou 'Adicionar ao ecrã inicial'.");
+      // Tenta verificar se já está instalado antes de dar o alerta
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        alert("O YT Premium já está instalado!");
+      } else {
+        alert("INSTALAÇÃO MANUAL:\n\n1. Clique nos 3 pontinhos (⋮) no topo do Chrome.\n2. Selecione 'Instalar aplicativo' ou 'Adicionar ao ecrã inicial'.");
+      }
     }
   };
-
+       
   // Esconder o botão quando entrar no painel (Login feito)
   const originalLoginHandler = loginForm.onsubmit || loginForm.addEventListener; 
   loginForm.addEventListener('submit', () => {
@@ -541,12 +545,16 @@ ontent">
       }
   });
                           
-
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+                                                      }
+ 
 </script>
 </body>
 </html>
 
  
+
 
 
 
