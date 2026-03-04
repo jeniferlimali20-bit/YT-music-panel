@@ -1,6 +1,6 @@
 {
-  "name": "YT music",
-  "short_name": "YT music",
+  "name": "YTㅤmusic",
+  "short_name": "YTㅤmusic",
   "description": "Painel Premium YT music",
   "start_url": "index.html",
   "display": "standalone",
@@ -19,3 +19,4 @@
     }
   ]
 }
+
