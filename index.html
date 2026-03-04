@@ -328,6 +328,20 @@
 </head>
  <body>
 
+  <div id="install-container" style="position: fixed !important; bottom: 20px !important; left: 50% !important; transform: translateX(-50%) !important; width: 90%; max-width: 400px; z-index: 999999 !important; display: block !important;">
+    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid #f4a7bb; border-radius: 50px; color: #fff; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Instalar YT&#12644;music</span>
+        </div>
+        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 900;">DOWNLOAD</div>
+    </button>
+  </div>
+  
 <div id="login-screen">
   <div class="login-container animate-fade-in-scale">
     <div class="logo-box">
@@ -341,20 +355,7 @@
       </div>
       <div id="login-error" class="error-msg hidden">Key inválida.</div>
       <button type="submit" class="btn-gradient">ACESSAR</button>
-      <div id="install-container" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 9999;">
-    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: rgba(25, 25, 25, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(244, 167, 187, 0.3); border-radius: 50px; color: #fff; cursor: pointer; outline: none;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            <span style="font-size: 0.75rem; font-weight: 500; text-transform: uppercase;">Instalar YT&#12644;music</span>
-        </div>
-        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;">DOWNLOAD</div>
-    </button>
-      </div>
-
+      
 <div id="dashboard" class="hidden">
   <h1 class="dash-header">PAINEL PREMIUM</h1>
 
@@ -505,43 +506,47 @@ ontent">
 
   function closeModal() { document.getElementById('inject-modal').classList.add('hidden'); }
 
-      let deferredPrompt;
+        let deferredPrompt;
   const installContainer = document.getElementById('install-container');
   const btnInstalar = document.getElementById('btn-instalar');
 
-  // Captura o evento de instalação oficial
+  // Captura o evento do Chrome
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
+    console.log("Sistema de instalação pronto.");
   });
 
-  // Ação ao clicar no botão
+  // Clique no botão
   btnInstalar.onclick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
-        installContainer.classList.add('hidden');
+        installContainer.style.display = 'none';
       }
       deferredPrompt = null;
     } else {
-      // Caso o Chrome não dispare o evento (por conflito de app instalado), mostra o manual:
-      alert("Para instalar o YTㅤmusic:\n1. Clique nos 3 pontinhos (⋮) do Chrome.\n2. Escolha 'Instalar aplicativo' ou 'Adicionar à tela inicial'.");
+      // Se o Chrome não disparar o evento automático (muito comum em testes repetidos)
+      alert("INSTALAÇÃO MANUAL:\n\n1. Clique nos 3 pontinhos (⋮) no topo do Chrome.\n2. Selecione 'Instalar aplicação' ou 'Adicionar ao ecrã inicial'.");
     }
   };
 
-  // Esconde o botão após o login para não atrapalhar o dashboard
-  loginForm.addEventListener('submit', (e) => {
-    if (document.getElementById('key-input').value === '825419') {
-       installContainer.classList.add('hidden');
-    }
+  // Esconder o botão quando entrar no painel (Login feito)
+  const originalLoginHandler = loginForm.onsubmit || loginForm.addEventListener; 
+  loginForm.addEventListener('submit', () => {
+      if (document.getElementById('key-input').value === '825419') {
+          installContainer.style.display = 'none';
+      }
   });
+                          
 
 </script>
 </body>
 </html>
 
  
+
 
 
 
