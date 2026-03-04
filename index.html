@@ -535,68 +535,99 @@ ontent">
         <button class="opt-card" onclick="Motor.ativarPerformance(this)"><div style="flex:1"><p class="opt-label">Modo Performance</p><p class="opt-desc">Mantém CPU em alerta</p></div><span class="opt-status hidden">Ativo</span></button>
       </div>
 
-      <div id="tab-ativacao" class="tab-panel">
-        <div class="inject-container"><button class="inject-btn" onclick="startInject()">INJETAR<br>AUXÍLIO</button></div>
+<body>
+
+  <div id="install-container" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 9999; display: block;">
+    <button id="btn-instalar" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); border: 1px solid #f4a7bb; border-radius: 50px; color: #fff; cursor: pointer; outline: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Instalar YT Premium</span>
+        </div>
+        <div style="background: #f4a7bb; color: #0a0a0a; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 900;">DOWNLOAD</div>
+    </button>
+  </div>
+
+  <div id="login-screen">
+    <div class="login-container animate-fade-in-scale">
+      <div class="logo-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f4a7bb" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <h1 class="login-title">PAINEL PREMIUM</h1>
+      <p class="login-subtitle">Assistente Avançado</p>
+      <form id="login-form">
+        <div class="glass-card key-input-wrapper">
+          <input type="text" class="key-input" placeholder="Insira sua Key" id="key-input">
+        </div>
+        <div id="login-error" class="error-msg hidden" style="color: #ff4d4d; font-size: 0.8rem; margin-top: 10px;">Key inválida!</div>
+        <button type="submit" class="btn-gradient" style="margin-top: 15px;">ACESSAR</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="dashboard" class="hidden" style="padding: 20px;">
+    <h1 class="dash-header">PAINEL PREMIUM</h1>
+
+    <div class="tabs-container">
+      <div class="glass-card tabs-bar">
+        <button class="tab-btn active" data-tab="mira"><span>Mira</span></button>
+        <button class="tab-btn" data-tab="otimizacao"><span>Otimização</span></button>
+        <button class="tab-btn" data-tab="ativacao"><span>Ativação</span></button>
+        <button class="tab-btn" data-tab="info"><span>Info</span></button>
+      </div>
+    </div>
+
+    <div class="tab-content">
+      <div id="tab-mira" class="tab-panel active">
+        <div class="glass-card toggle-card">
+          <div class="toggle-left"><div><p class="toggle-label">Otimizar Toque</p><p class="toggle-desc">Reduz lag de entrada</p></div></div>
+          <button class="switch" onclick="this.classList.toggle('on')"></button>
+        </div>
       </div>
 
-      <div id="tab-info" class="tab-panel">
-        <div class="glass-card info-card">
-          <a href="https://instagram.com/gothxjen" target="_blank" class="info-link">Instagram: @gothxjen</a>
-        </div>
+      <div id="tab-otimizacao" class="tab-panel">
+        <button class="opt-card" onclick="executarOtimizacao(this)">
+          <div style="flex:1"><p class="opt-label">Limpar RAM</p><p class="opt-desc">Otimização Real do Navegador</p></div>
+          <span class="opt-status hidden">ATIVO</span>
+        </button>
+      </div>
+
+      <div id="tab-ativacao" class="tab-panel">
+        <div class="inject-container"><button class="inject-btn" onclick="startInject()">INJETAR<br>AUXÍLIO</button></div>
       </div>
     </div>
   </div>
 
   <div id="inject-modal" class="modal-overlay hidden">
     <div class="glass-card modal-content">
-      <h3 style="text-align:center;margin-bottom:1rem">PROCESSANDO...</h3>
-      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-      <div id="game-selection" class="hidden" style="margin-top:15px;display:flex;flex-direction:column;gap:10px;">
-        <button class="btn-gradient" onclick="abrirJogo('com.dts.freefireth')">FREE FIRE ORIGINAL</button>
-        <button class="btn-gradient" onclick="abrirJogo('com.dts.freefiremax')">FREE FIRE MAX</button>
-        <button onclick="closeModal()" style="color:#aaa;background:none;border:none;margin-top:10px">CANCELAR</button>
+      <h3 style="text-align:center; color:white;">PROCESSANDO...</h3>
+      <div class="progress-bar" style="background: #333; height: 10px; border-radius: 5px; margin: 20px 0;">
+        <div id="progress-fill" style="background: #f4a7bb; width: 0%; height: 100%; border-radius: 5px; transition: width 0.3s;"></div>
+      </div>
+      <div id="game-selection" class="hidden">
+        <button class="btn-gradient" onclick="location.href='intent://#Intent;package=com.dts.freefireth;scheme=android-app;end'" style="margin-bottom: 10px;">ABRIR FREE FIRE</button>
+        <button class="btn-gradient" onclick="location.href='intent://#Intent;package=com.dts.freefiremax;scheme=android-app;end'">ABRIR FF MAX</button>
+        <button onclick="closeModal()" style="display:block; margin: 10px auto; background:none; border:none; color:#aaa;">FECHAR</button>
       </div>
     </div>
   </div>
 
 <script>
-  // --- MOTOR DE FUNÇÕES REAIS ---
-  const Motor = {
-    limparRAM: function(btn) {
-      localStorage.clear();
-      sessionStorage.clear();
-      btn.classList.add('active');
-      btn.querySelector('.opt-status').classList.remove('hidden');
-      alert("Cache do sistema limpo com sucesso!");
-    },
-    ativarPerformance: async function(btn) {
-      if ('wakeLock' in navigator) {
-        await navigator.wakeLock.request('screen');
-        btn.classList.add('active');
-        btn.querySelector('.opt-status').classList.remove('hidden');
-        alert("Modo Performance: ATIVO (CPU em alerta)");
-      }
-    },
-    otimizarToque: function(btn) {
-      btn.classList.toggle('on');
-      document.body.style.touchAction = btn.classList.contains('on') ? "manipulation" : "auto";
-    }
-  };
-
-  // --- LÓGICA DE LOGIN ---
+  // LOGIN E TRANSIÇÃO
   const loginForm = document.getElementById('login-form');
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (document.getElementById('key-input').value === '825419') {
-      document.getElementById('login-screen').classList.add('hidden');
+    const key = document.getElementById('key-input').value;
+    if (key === '825419') {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('install-container').style.display = 'none';
       document.getElementById('dashboard').classList.remove('hidden');
-      document.getElementById('install-container').style.display = 'none'; // Some o download
+      document.getElementById('dashboard').style.display = 'block';
     } else {
       document.getElementById('login-error').classList.remove('hidden');
     }
   });
 
-  // --- NAVEGAÇÃO TABS ---
+  // NAVEGAÇÃO ENTRE ABAS
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -606,29 +637,33 @@ ontent">
     });
   });
 
-  // --- INJETOR E ABERTURA DE JOGO ---
+  // MOTOR DE OTIMIZAÇÃO REAL
+  function executarOtimizacao(btn) {
+    localStorage.clear();
+    sessionStorage.clear();
+    btn.classList.add('active');
+    btn.querySelector('.opt-status').classList.remove('hidden');
+    alert("Memória do navegador limpa! Performance aumentada.");
+  }
+
+  // INJEÇÃO E MODAL
   function startInject() {
     const modal = document.getElementById('inject-modal');
     const fill = document.getElementById('progress-fill');
     modal.classList.remove('hidden');
     let p = 0;
     const interval = setInterval(() => {
-      p += 5;
+      p += 10;
       fill.style.width = p + '%';
       if(p >= 100) {
         clearInterval(interval);
         document.getElementById('game-selection').classList.remove('hidden');
       }
-    }, 50);
+    }, 300);
   }
-
-  function abrirJogo(pkg) {
-    window.location.href = "intent://#Intent;package=" + pkg + ";action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
-  }
-
   function closeModal() { document.getElementById('inject-modal').classList.add('hidden'); }
 
-  // --- PWA INSTALAÇÃO ---
+  // DOWNLOAD / INSTALAÇÃO (PWA)
   let deferredPrompt;
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -639,7 +674,7 @@ ontent">
     if (deferredPrompt) {
       deferredPrompt.prompt();
     } else {
-      alert("Para instalar: Clique nos 3 pontinhos do Chrome e selecione 'Instalar Aplicativo'.");
+      alert("INSTALAÇÃO: Clique nos 3 pontinhos (⋮) do Chrome e escolha 'Instalar aplicativo'.");
     }
   };
 </script>
@@ -647,6 +682,7 @@ ontent">
 </html>
 
  
+
 
 
 
