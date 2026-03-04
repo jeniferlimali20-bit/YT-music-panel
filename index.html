@@ -507,19 +507,28 @@ ontent">
 
   function closeModal() { document.getElementById('inject-modal').classList.add('hidden'); }
 
-        let deferredPrompt;
+  let deferredPrompt;
   const installContainer = document.getElementById('install-container');
   const btnInstalar = document.getElementById('btn-instalar');
 
-  // Captura o evento do Chrome
+  // 1. Registo do Service Worker (Obrigatório para o Chrome libertar a instalação)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker ativo!', reg))
+        .catch(err => console.log('Erro no SW:', err));
+    });
+  }
+
+  // 2. Captura o evento de instalação
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    console.log("Sistema de instalação pronto.");
+    console.log("Pronto para instalar YT Premium");
   });
 
-  // Clique no botão
-    btnInstalar.onclick = async () => {
+  // 3. Lógica do clique no botão
+  btnInstalar.onclick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
@@ -528,32 +537,26 @@ ontent">
       }
       deferredPrompt = null;
     } else {
-      // Tenta verificar se já está instalado antes de dar o alerta
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        alert("O YT Premium já está instalado!");
-      } else {
-        alert("INSTALAÇÃO MANUAL:\n\n1. Clique nos 3 pontinhos (⋮) no topo do Chrome.\n2. Selecione 'Instalar aplicativo' ou 'Adicionar ao ecrã inicial'.");
-      }
+      // Se chegar aqui, é porque o Chrome ainda não validou o sw.js ou manifest
+      alert("Aguarde um momento ou faça a INSTALAÇÃO MANUAL:\n\n1. Clique nos 3 pontinhos (⋮) do Chrome.\n2. Escolha 'Instalar aplicação' ou 'Adicionar ao ecrã inicial'.");
     }
   };
-       
-  // Esconder o botão quando entrar no painel (Login feito)
-  const originalLoginHandler = loginForm.onsubmit || loginForm.addEventListener; 
-  loginForm.addEventListener('submit', () => {
+
+  // 4. Esconde o botão após o login (ajuste conforme o seu código de login)
+  if (loginForm) {
+    loginForm.addEventListener('submit', () => {
       if (document.getElementById('key-input').value === '825419') {
-          installContainer.style.display = 'none';
+        installContainer.style.display = 'none';
       }
-  });
-                          
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-                                                      }
- 
+    });
+  }
+  
 </script>
 </body>
 </html>
 
  
+
 
 
 
