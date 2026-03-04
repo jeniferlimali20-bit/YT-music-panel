@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YT Premium</title>
+<title>YT&#12644;music - Painel Premium</title>
 <meta name="description" content="App de músicas.">
 <link rel="manifest" href="manifest.json">
 <style>
@@ -434,7 +434,7 @@
 
 <script>
  
-  function ABRIR FREE FIRE(packageName) {
+  function abrirJogo(packageName) {
   // Este é o formato de "Intent" que o Android usa para abrir a tela inicial de um app instalado
   const intentUrl = "intent://#Intent;package=" + packageName + ";action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
   
@@ -494,7 +494,38 @@
 
   function closeModal() { document.getElementById('inject-modal').classList.add('hidden'); }
 
+    let deferredPrompt;
+  const installContainer = document.getElementById('install-container');
+  const btnInstalar = document.getElementById('btn-instalar');
+
+  // Deteta se o navegador permite a instalação
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // Mostra o container que você colocou no fundo da tela
+    if (installContainer) {
+      installContainer.classList.remove('hidden');
+    }
+  });
+
+  // Ação ao clicar no botão de Download
+  btnInstalar.onclick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installContainer.classList.add('hidden');
+      }
+      deferredPrompt = null;
+    }
+  };
+
+  // Esconde o botão se o usuário já tiver instalado o app
+  window.addEventListener('appinstalled', () => {
+    if (installContainer) installContainer.classList.add('hidden');
+    deferredPrompt = null;
+  });
+
 </script>
 </body>
- </html>
-
+                                     </html>
