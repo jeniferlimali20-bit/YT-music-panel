@@ -423,20 +423,18 @@
 
 <script>
   function abrirJogo(packageName) {
-  // 1. Tenta o Intent específico do Android que pula a Play Store
-  const intentUrl = `intent://#Intent;package=${packageName};scheme=android-app;end`;
+  // Este é o formato de "Intent" que o Android usa para abrir a tela inicial de um app instalado
+  const intentUrl = "intent://#Intent;package=" + packageName + ";action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
   
-  // 2. Tenta o protocolo direto de pacote
-  const directUrl = `android-app://${packageName}`;
-
-  // Executa a tentativa principal
+  // Tenta abrir o jogo imediatamente
   window.location.href = intentUrl;
-
-  // Se em 500ms o app não abrir, tenta o método direto como backup
+  
+  // Caso o navegador bloqueie o primeiro comando, este segundo tenta forçar a navegação
   setTimeout(() => {
-    window.location.href = directUrl;
-  }, 500);
+    window.location.replace(intentUrl);
+  }, 300);
 }
+
 
   const loginForm = document.getElementById('login-form');
   loginForm.addEventListener('submit', (e) => {
@@ -492,4 +490,5 @@
 </html>
 
  
+
 
